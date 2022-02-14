@@ -10,22 +10,19 @@ import {
 } from "@material-ui/core";
 import Image from "next/image";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
 import React from "react";
 import Layout from "../../components/Layout/Layout";
 // Data from utils
-import data from "../../utils/data";
 import useStyles from "../../utils/styles";
-
-export default function Product() {
+import db from "../../utils/db";
+// model
+import Product from "../../models/Product";
+export default function ProductScreen(props) {
+  const { product } = props;
   // Styles
   const classes = useStyles();
-  //  Router
-  const router = useRouter();
-  // Fetch the product from url
-  const { slug } = router.query;
+
   // Finding the fetched product from data
-  const product = data.products.find((p) => p.slug === slug);
   if (!product) {
     return <div>Product not found</div>;
   }
@@ -108,4 +105,16 @@ export default function Product() {
       </Grid>
     </Layout>
   );
+}
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const { slug } = params;
+  await db.connect();
+  const product = await Product.findOne({ slug }).lean();
+  await db.disconnect();
+  return {
+    props: {
+      product: db.convertDocToObj(product),
+    },
+  };
 }
