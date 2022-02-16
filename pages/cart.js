@@ -15,6 +15,8 @@ import {
   TableRow,
   Typography,
 } from "@material-ui/core";
+// Next/React components
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import NextLink from "next/link";
 import React, { useContext } from "react";
@@ -120,4 +122,4 @@ function CartScreen() {
   );
 }
 
-export default CartScreen;
+export default dynamic(() => Promise.resolve(CartScreen), { ssr: false });
