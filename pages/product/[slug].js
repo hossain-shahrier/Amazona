@@ -19,7 +19,9 @@ import { Store } from "../../utils/Store";
 // model
 import Product from "../../models/Product";
 import axios from "axios";
+import { useRouter } from "next/router";
 export default function ProductScreen(props) {
+  const router = useRouter();
   const { dispatch } = useContext(Store);
   const { product } = props;
   // Styles
@@ -35,6 +37,7 @@ export default function ProductScreen(props) {
       window.alert("Sorry, Product is out of stock");
     }
     dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity: 1 } });
+    router.push("/cart");
   };
 
   return (
@@ -105,14 +108,25 @@ export default function ProductScreen(props) {
                 </Grid>
               </ListItem>
               <ListItem>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  onClick={addToCartHandler}
-                >
-                  Add to cart
-                </Button>
+                {product.countInStock === 0 ? (
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    disabled
+                  >
+                    Add to cart
+                  </Button>
+                ) : (
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    onClick={addToCartHandler}
+                  >
+                    Add to cart
+                  </Button>
+                )}
               </ListItem>
             </List>
           </Card>
