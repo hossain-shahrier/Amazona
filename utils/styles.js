@@ -24,6 +24,10 @@ const useStyles = makeStyles({
     maxWidth: 800,
     margin: "0 auto",
   },
+  navbarButton: {
+    color: "#ffffff",
+    textTransform: "initial",
+  },
   footer: {
     marginTop: 10,
     textAlign: "center",
