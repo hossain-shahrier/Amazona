@@ -28,6 +28,9 @@ const useStyles = makeStyles({
     color: "#ffffff",
     textTransform: "initial",
   },
+  transparentBackground: {
+    backgroundColor: "transparent",
+  },
   footer: {
     marginTop: 10,
     textAlign: "center",
